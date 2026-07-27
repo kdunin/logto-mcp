@@ -1,0 +1,36 @@
+{
+  "name": "logto-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for the Logto Management API (self-hosted OSS and Cloud)",
+  "type": "module",
+  "bin": {
+    "logto-mcp": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "tsc --watch"
+  },
+  "files": [
+    "build"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "logto",
+    "management-api",
+    "model-context-protocol"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@logto/api": "^1.41.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
+  }
+}

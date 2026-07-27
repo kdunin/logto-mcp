@@ -52,7 +52,9 @@ LOGTO_APP_ID=...
 LOGTO_APP_SECRET=...
 ```
 
-## Cursor / Claude Desktop config
+## Cursor / Claude Desktop / MetaMCP config
+
+Local build:
 
 ```json
 {
@@ -70,7 +72,25 @@ LOGTO_APP_SECRET=...
 }
 ```
 
-Use an absolute path to `build/index.js`. After changing env or rebuilding, restart the MCP client.
+From GitHub (after clone/install builds via `prepare`):
+
+```json
+{
+  "mcpServers": {
+    "logto": {
+      "command": "npx",
+      "args": ["-y", "github:KDunin/logto-mcp"],
+      "env": {
+        "LOGTO_ENDPOINT": "https://your.logto.endpoint",
+        "LOGTO_APP_ID": "your-m2m-app-id",
+        "LOGTO_APP_SECRET": "your-m2m-app-secret"
+      }
+    }
+  }
+}
+```
+
+Use an absolute path to `build/index.js` for local runs. After changing env or rebuilding, restart the MCP client.
 
 ## Tools
 
@@ -93,6 +113,26 @@ npm run dev     # tsc --watch
 ```
 
 Logging goes to **stderr** only so stdout stays reserved for MCP JSON-RPC.
+
+## Releasing
+
+Releases are automated by [`.github/workflows/release.yml`](.github/workflows/release.yml) when you push a version tag.
+
+1. Bump `version` in `package.json` (must match the tag without the `v` prefix).
+2. Commit, then tag and push:
+
+```bash
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+The workflow will:
+
+- Build the package
+- Create a GitHub Release with notes and the `.tgz` artifact
+- Publish to npm (stable tags only; requires repo secret `NPM_TOKEN`)
+
+Prerelease tags like `v1.0.1-beta.1` create a GitHub prerelease and skip npm publish.
 
 ## License
 

@@ -1,6 +1,6 @@
 {
   "name": "@kdunin/logto-mcp",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "MCP server for the Logto Management API (self-hosted OSS and Cloud)",
   "type": "module",
   "bin": {

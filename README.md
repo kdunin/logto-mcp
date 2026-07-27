@@ -72,7 +72,7 @@ Local build:
 }
 ```
 
-From GitHub (after clone/install builds via `prepare`):
+From GitHub repo (no package registry auth):
 
 ```json
 {
@@ -80,6 +80,30 @@ From GitHub (after clone/install builds via `prepare`):
     "logto": {
       "command": "npx",
       "args": ["-y", "github:KDunin/logto-mcp"],
+      "env": {
+        "LOGTO_ENDPOINT": "https://your.logto.endpoint",
+        "LOGTO_APP_ID": "your-m2m-app-id",
+        "LOGTO_APP_SECRET": "your-m2m-app-secret"
+      }
+    }
+  }
+}
+```
+
+From GitHub Packages (after a release is published):
+
+```bash
+# once in ~/.npmrc (needs a PAT with read:packages)
+echo "@kdunin:registry=https://npm.pkg.github.com" >> ~/.npmrc
+echo "//npm.pkg.github.com/:_authToken=YOUR_GH_PAT" >> ~/.npmrc
+```
+
+```json
+{
+  "mcpServers": {
+    "logto": {
+      "command": "npx",
+      "args": ["-y", "@kdunin/logto-mcp"],
       "env": {
         "LOGTO_ENDPOINT": "https://your.logto.endpoint",
         "LOGTO_APP_ID": "your-m2m-app-id",
@@ -130,9 +154,11 @@ The workflow will:
 
 - Build the package
 - Create a GitHub Release with notes and the `.tgz` artifact
-- Publish to npm (stable tags only; requires repo secret `NPM_TOKEN`)
+- Publish to **GitHub Packages** as `@kdunin/logto-mcp` (stable tags only; uses `GITHUB_TOKEN`, no npmjs login)
 
-Prerelease tags like `v1.0.1-beta.1` create a GitHub prerelease and skip npm publish.
+`ENEEDAUTH` against `registry.npmjs.org` means you were targeting the public npm registry. This project publishes to `https://npm.pkg.github.com` instead.
+
+Prerelease tags like `v1.0.1-beta.1` create a GitHub prerelease and skip package publish.
 
 ## License
 

@@ -20,7 +20,6 @@ registerRoleTools(server);
 async function main(): Promise<void> {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error('Logto MCP Server running on stdio');
 }
 
 main().catch((error: unknown) => {

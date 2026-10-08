@@ -69,7 +69,7 @@ export function registerOrganizationTools(server: McpServer): void {
       inputSchema: {
         name: z.string().describe('Organization name'),
         description: z.string().nullable().optional(),
-        customData: z.record(z.unknown()).optional(),
+        customData: z.record(z.string(), z.unknown()).optional(),
         isMfaRequired: z.boolean().optional(),
       },
     },
@@ -98,7 +98,7 @@ export function registerOrganizationTools(server: McpServer): void {
         id: z.string().describe('Organization ID'),
         name: z.string().optional(),
         description: z.string().nullable().optional(),
-        customData: z.record(z.unknown()).optional(),
+        customData: z.record(z.string(), z.unknown()).optional(),
         isMfaRequired: z.boolean().optional(),
       },
     },

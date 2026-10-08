@@ -16,7 +16,7 @@
     "build"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=26"
   },
   "repository": {
     "type": "git",
@@ -38,12 +38,12 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@logto/api": "^1.41.0",
-    "@modelcontextprotocol/sdk": "^1.30.0",
-    "zod": "^3.25.76"
+    "@logto/api": "^1.44.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.6.4",
     "typescript": "^7.0.2"
   }
 }

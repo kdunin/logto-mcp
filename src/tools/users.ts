@@ -80,7 +80,7 @@ export function registerUserTools(server: McpServer): void {
         name: z.string().optional().describe('Display name'),
         avatar: z.string().url().optional().describe('Avatar URL'),
         customData: z
-          .record(z.unknown())
+          .record(z.string(), z.unknown())
           .optional()
           .describe('Arbitrary custom data object'),
       },
@@ -113,7 +113,7 @@ export function registerUserTools(server: McpServer): void {
         name: z.string().nullable().optional(),
         avatar: z.string().nullable().optional(),
         customData: z
-          .record(z.unknown())
+          .record(z.string(), z.unknown())
           .optional()
           .describe('Replaces the entire custom data object'),
       },

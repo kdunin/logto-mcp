@@ -117,7 +117,8 @@ export function registerApplicationTools(server: McpServer): void {
   server.registerTool(
     'update_application',
     {
-      description: 'Update a Logto application by ID (partial update).',
+      description:
+        'Update a Logto application by ID (partial update). Token settings are merged into the current custom client metadata.',
       inputSchema: {
         id: z.string().describe('Application ID'),
         name: z.string().optional(),
@@ -125,11 +126,50 @@ export function registerApplicationTools(server: McpServer): void {
         isThirdParty: z.boolean().optional(),
         redirectUris: z.array(z.string()).optional(),
         postLogoutRedirectUris: z.array(z.string()).optional(),
+        refreshTokenTtlInDays: z
+          .number()
+          .int()
+          .min(1)
+          .max(90)
+          .optional()
+          .describe('Refresh token lifetime in days (1-90)'),
+        rotateRefreshToken: z
+          .boolean()
+          .optional()
+          .describe('Issue a new refresh token on refresh'),
+        alwaysIssueRefreshToken: z
+          .boolean()
+          .optional()
+          .describe('Issue a refresh token even without prompt=consent'),
+        idTokenTtl: z.number().int().min(1).optional().describe('ID token lifetime in seconds'),
+        corsAllowedOrigins: z.array(z.string()).optional(),
       },
     },
-    async ({ id, name, description, isThirdParty, redirectUris, postLogoutRedirectUris }) => {
+    async ({
+      id,
+      name,
+      description,
+      isThirdParty,
+      redirectUris,
+      postLogoutRedirectUris,
+      ...tokenSettings
+    }) => {
       try {
         const body: Record<string, unknown> = {};
+        const custom = Object.fromEntries(
+          Object.entries(tokenSettings).filter(([, v]) => v !== undefined),
+        );
+        if (Object.keys(custom).length > 0) {
+          // PATCH replaces customClientMetadata as a whole, so merge into the current value.
+          const current = await getApiClient().GET('/api/applications/{id}', {
+            params: { path: { id } },
+          });
+          if (current.error) return fromApiResponse(current);
+          body.customClientMetadata = {
+            ...(current.data?.customClientMetadata ?? {}),
+            ...custom,
+          };
+        }
         if (name !== undefined) body.name = name;
         if (description !== undefined) body.description = description;
         if (isThirdParty !== undefined) body.isThirdParty = isThirdParty;

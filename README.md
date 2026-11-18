@@ -122,11 +122,14 @@ Use an absolute path to `build/index.js` for local runs. After changing env or r
 |------|-------------|
 | `logto_health` | Verify M2M credentials |
 | `list_users` / `get_user` / `create_user` / `update_user` / `delete_user` | Users |
-| `list_applications` / `get_application` / `create_application` / `update_application` / `delete_application` | Applications |
+| `list_applications` / `get_application` / `create_application` / `update_application` / `delete_application` | Applications (`update_application` also sets refresh/ID token settings) |
 | `list_organizations` / `get_organization` / `create_organization` / `update_organization` / `delete_organization` | Organizations |
 | `list_organization_members` / `add_organization_members` / `remove_organization_member` | Organization members |
 | `list_roles` / `get_role` / `create_role` / `update_role` / `delete_role` | Roles |
 | `list_user_roles` / `assign_user_roles` | User ↔ role assignment |
+| `list_resources` / `get_resource` / `create_resource` / `update_resource` / `delete_resource` | API resources |
+| `list_resource_scopes` / `create_resource_scope` / `delete_resource_scope` | API resource permissions |
+| `assign_role_scopes` | Role ↔ permission assignment |
 
 ## Development
 
